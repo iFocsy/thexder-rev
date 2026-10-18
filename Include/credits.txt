@@ -1,0 +1,92 @@
+# Game Revitalization
+## C# / .NET 10 edition
+BlazeFox
+> github.com/iFocsy
+
+# Thexder for Windows 95
+> Sierra On-Line, 1995
+> Created by Synergistic Software
+## Designed by
+Robert Clardy
+Kirt Lemons
+## Directed by
+Robert Clardy
+Michael Branham
+## Produced by
+Steven Miles, Sierra On-Line
+## Lead Programmer
+Michael "Mega Gun" Branham
+## Programming
+Cheryl "Trooper" Makovsky
+David "I Don't Want to Be a Techie" Jackson
+## Art Director
+Kirt "Demon" Lemons
+## Prototype
+Jeremy "Jackaloid" Jones
+## Introduction, Finale, Intermissions
+Patrick "Primus" Watje
+Kirt "Demon" Lemons
+Mike "Exoskull" McMillen
+## Techies
+Mike "Exoskull" McMillen
+Jerry "Vipercoil" Speed
+Peter "Tech Wraith" Watje
+Patrick "Primus" Watje
+Kirt "Demon" Lemons
+Kevin "Rockworm" Ring
+Alan "Arachnobellum" Speed
+## Backgrounds
+Jerry "Vipercoil" Speed
+Kirt "Demon" Lemons
+## Character Sets
+Kirt "Demon" Lemons
+Linda "Formic Horror" Westerfield
+## Level Decorators
+Carl "Amoeboid" Square
+Linda "Formic Horror" Westerfield
+Kate "Tech Star" Policani
+Kirt "Demon" Lemons
+## Music
+Christopher "Spectre" Barker
+Craig "Bug Breath" Utterback
+## Sound Effects
+Craig "Bug Breath" Utterback
+## Level Design
+Bob "Death Plumber" Westerfield
+Robert "Pulsar Czar" Clardy
+Derek "Dragon Lord" Clardy
+Linda "Formic Horror" Westerfield
+## Voice Talent
+Craig "Bug Breath" Utterback
+Julie "Hawkoid" Utterback
+Michael "Mega Gun" Branham
+## Test and QA
+Robert "Pulsar Czar" Clardy
+Ann "Bug Bomb" Dickens Clardy
+Kate "Tech Star" Policani
+Erin "Sundisk" Durdy
+Derek "Dragon Lord" Clardy
+Bob "Death Plumber" Westerfield
+Linda "Formic Horror" Westerfield
+Chris "Thor" Johansen, Sierra On-Line
+## Online Manual
+Steven "Cerberus" Miles, Sierra On-Line
+Linda "Formic Horror" Westerfield
+Michael "Mega Gun" Branham
+## Special Thanks
+Ken Williams
+Derek Clardy
+Steven Miles
+Michael Branham
+
+# The Original Thexder
+> Game Arts, 1985
+## Created by
+Satoshi Uesaka
+Hibiki Godai
+
+# Built With
+> Indeo 3 codebooks derived from FFmpeg (LGPL 2.1 or later)
+> WPF-UI · NAudio · Serilog
+
+> Thexder, its art, sound, music, movies and levels belong to their owners.

@@ -1,0 +1,42 @@
+<UserControl
+    x:Class="Thexder.UI.Wordmark"
+    x:ClassModifier="internal"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    IsHitTestVisible="False">
+    <!-- The THEXDER wordmark, with a light that sweeps across it now and then, and REVITALIZED under it. -->
+    <StackPanel>
+        <Grid>
+            <TextBlock FontFamily="Bahnschrift, Segoe UI Black" FontSize="72" FontWeight="Bold" Text="THEXDER" CacheMode="BitmapCache">
+                <TextBlock.Foreground>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <GradientStop Offset="0.1" Color="#FFFFFF" />
+                        <GradientStop Offset="0.42" Color="#FFD6CF" />
+                        <GradientStop Offset="0.62" Color="#E8463A" />
+                        <GradientStop Offset="1" Color="#8A1A12" />
+                    </LinearGradientBrush>
+                </TextBlock.Foreground>
+                <TextBlock.Effect>
+                    <DropShadowEffect BlurRadius="26" Opacity="0.65" ShadowDepth="0" Color="#E8463A" />
+                </TextBlock.Effect>
+            </TextBlock>
+            <TextBlock FontFamily="Bahnschrift, Segoe UI Black" FontSize="72" FontWeight="Bold" Text="THEXDER">
+                <TextBlock.Foreground>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0.35">
+                        <LinearGradientBrush.RelativeTransform>
+                            <TranslateTransform x:Name="ShineShift" X="-1" />
+                        </LinearGradientBrush.RelativeTransform>
+                        <GradientStop Offset="0.38" Color="#004FD8FF" />
+                        <GradientStop Offset="0.5" Color="#B0E6FAFF" />
+                        <GradientStop Offset="0.62" Color="#004FD8FF" />
+                    </LinearGradientBrush>
+                </TextBlock.Foreground>
+            </TextBlock>
+        </Grid>
+        <TextBlock Margin="4,-4,0,0" FontSize="13" FontWeight="SemiBold" Foreground="#4FD8FF" Text="R E V I T A L I Z E D" CacheMode="BitmapCache">
+            <TextBlock.Effect>
+                <DropShadowEffect BlurRadius="10" Opacity="0.8" ShadowDepth="0" Color="#4FD8FF" />
+            </TextBlock.Effect>
+        </TextBlock>
+    </StackPanel>
+</UserControl>

@@ -1,0 +1,9 @@
+<Project>
+  <PropertyGroup>
+    <BaseOutputPath>Build\bin\</BaseOutputPath>
+    <BaseIntermediateOutputPath>Build\obj\</BaseIntermediateOutputPath>
+    <MSBuildProjectExtensionsPath>Build\obj\</MSBuildProjectExtensionsPath>
+    <RestoreBaseIntermediateOutputPath>Build\obj\</RestoreBaseIntermediateOutputPath>
+    <DefaultItemExcludes>$(DefaultItemExcludes);Build\bin\**;Build\obj\**;**\bin\**;**\obj\**</DefaultItemExcludes>
+  </PropertyGroup>
+</Project>

@@ -1,0 +1,94 @@
+<ui:FluentWindow
+    x:Class="Thexder.UI.AboutWindow"
+    x:ClassModifier="internal"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    xmlns:local="clr-namespace:Thexder.UI"
+    Title="About Thexder"
+    Width="700"
+    Height="620"
+    FontSize="12"
+    ExtendsContentIntoTitleBar="True"
+    ResizeMode="NoResize"
+    ShowInTaskbar="False"
+    WindowBackdropType="Mica"
+    WindowStartupLocation="CenterOwner">
+    <Window.Resources>
+        <!-- Fixed colours in both themes: deep space, the robot's red, the laser's cyan. -->
+        <SolidColorBrush x:Key="BrandBrush" Color="#E8463A" />
+        <SolidColorBrush x:Key="LaserBrush" Color="#4FD8FF" />
+        <SolidColorBrush x:Key="TextBrush" Color="#EEF1F8" />
+        <SolidColorBrush x:Key="DimBrush" Color="#8F98AE" />
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="250" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <ui:TitleBar Height="32" Title="About Thexder" ShowMaximize="False" ShowMinimize="False">
+            <ui:TitleBar.Icon>
+                <ui:ImageIcon Width="16" Height="16" Source="pack://application:,,,/Include/Thexder.ico" />
+            </ui:TitleBar.Icon>
+        </ui:TitleBar>
+
+        <!-- Banner: Thexder running through space, the author's mark and the wordmark -->
+        <Grid Grid.Row="1" ClipToBounds="True">
+            <local:SpaceScene x:Name="Scene" />
+            <TextBlock x:Name="AuthorMark" Margin="30,22,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16" FontWeight="Bold"
+                       Foreground="{StaticResource TextBrush}" Text="B L A Z E F O X" />
+            <local:Wordmark x:Name="Hero" Margin="26,0,0,34" HorizontalAlignment="Left" VerticalAlignment="Center" />
+            <ui:Button x:Name="AnimationButton" Margin="0,10,12,0" Padding="7" HorizontalAlignment="Right" VerticalAlignment="Top" MinHeight="0"
+                   Appearance="Transparent" Background="#40000000" BorderBrush="#30FFFFFF" Opacity="0.8" ToolTip="Pause the animation" Click="OnToggleAnimation">
+            <ui:SymbolIcon x:Name="AnimationIcon" FontSize="16" Foreground="#EEF1F8" Symbol="Pause24" />
+        </ui:Button>
+        </Grid>
+
+        <!-- Credits roll on the left, details and Close on the right -->
+        <Grid Grid.Row="2" Background="#080B18">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="230" />
+            </Grid.ColumnDefinitions>
+            <Rectangle Grid.ColumnSpan="2" Height="1" VerticalAlignment="Top">
+                <Rectangle.Fill>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Offset="0" Color="#00E8463A" />
+                        <GradientStop Offset="0.35" Color="#E8463A" />
+                        <GradientStop Offset="0.75" Color="#4FD8FF" />
+                        <GradientStop Offset="1" Color="#004FD8FF" />
+                    </LinearGradientBrush>
+                </Rectangle.Fill>
+            </Rectangle>
+
+            <Border x:Name="RollViewport" Margin="20,10,8,10" Background="Transparent" ClipToBounds="True" MouseWheel="OnRollWheel">
+                <Canvas>
+                    <StackPanel x:Name="Roll" Width="{Binding ActualWidth, ElementName=RollViewport}" CacheMode="BitmapCache">
+                        <StackPanel.RenderTransform>
+                            <TranslateTransform x:Name="RollShift" />
+                        </StackPanel.RenderTransform>
+                    </StackPanel>
+                </Canvas>
+            </Border>
+
+            <StackPanel x:Name="Info" Grid.Column="1" Margin="0,0,24,20" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                <TextBlock HorizontalAlignment="Right" FontSize="15" FontWeight="Bold" Foreground="{StaticResource TextBrush}" Text="Thexder" />
+                <TextBlock HorizontalAlignment="Right" Foreground="{StaticResource LaserBrush}" Text="Revitalized edition" />
+                <TextBlock x:Name="VersionText" Margin="0,8,0,0" HorizontalAlignment="Right" Foreground="{StaticResource TextBrush}" />
+                <TextBlock x:Name="BuiltText" Margin="0,2,0,0" HorizontalAlignment="Right" Foreground="{StaticResource DimBrush}" />
+                <TextBlock x:Name="CopyrightText" Margin="0,2,0,0" HorizontalAlignment="Right" Foreground="{StaticResource TextBrush}" />
+                <TextBlock Margin="0,2,0,0" HorizontalAlignment="Right">
+                    <Hyperlink x:Name="WebsiteLink" Foreground="{StaticResource BrandBrush}" RequestNavigate="OnNavigate" TextDecorations="None">
+                        <Run x:Name="WebsiteText" />
+                    </Hyperlink>
+                </TextBlock>
+                <TextBlock Margin="0,8,0,0" HorizontalAlignment="Right" Foreground="{StaticResource DimBrush}" Text="Original game © 1995 Sierra On-Line" />
+                <TextBlock HorizontalAlignment="Right" Foreground="{StaticResource DimBrush}" Text="Thexder created by Game Arts" />
+                <ui:Button MinWidth="80" Margin="0,14,0,0" HorizontalAlignment="Right" Content="Close" IsCancel="True" IsDefault="True" Click="OnClose" />
+            </StackPanel>
+        </Grid>
+    </Grid>
+</ui:FluentWindow>

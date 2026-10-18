@@ -1,0 +1,34 @@
+<UserControl
+    x:Class="Thexder.UI.CosmosScene"
+    x:ClassModifier="internal"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    ClipToBounds="True"
+    IsHitTestVisible="False">
+    <!-- A calm view of space: drifting, twinkling stars, a slow nebula, turning planets and a moon; laid out in code. -->
+    <Grid>
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="0.4,1">
+                <GradientStop Offset="0" Color="#070A1A" />
+                <GradientStop Offset="0.6" Color="#050712" />
+                <GradientStop Offset="1" Color="#020309" />
+            </LinearGradientBrush>
+        </Grid.Background>
+        <Canvas x:Name="Sky">
+            <Ellipse x:Name="NebulaA" />
+            <Ellipse x:Name="NebulaB" />
+            <Ellipse x:Name="NebulaC" />
+            <Canvas x:Name="Stars" />
+            <Line x:Name="ShootingStar" StrokeThickness="1.6" StrokeStartLineCap="Round" StrokeEndLineCap="Round" Opacity="0" />
+            <Ellipse x:Name="RingBack" />
+            <Image x:Name="FarPlanet" />
+            <Ellipse x:Name="RingFront" />
+            <Rectangle x:Name="JetTrail" Opacity="0" />
+            <Image x:Name="Jet" RenderOptions.BitmapScalingMode="NearestNeighbor" Opacity="0" />
+            <Image x:Name="MoonBehind" />
+            <Ellipse x:Name="Glow" />
+            <Image x:Name="BigPlanet" />
+            <Image x:Name="MoonFront" />
+        </Canvas>
+    </Grid>
+</UserControl>

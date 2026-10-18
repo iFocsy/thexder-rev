@@ -1,0 +1,137 @@
+<ui:FluentWindow
+    x:Class="Thexder.UI.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    xmlns:local="clr-namespace:Thexder.UI"
+    Title="Thexder"
+    Width="1100"
+    Height="760"
+    MinWidth="480"
+    MinHeight="360"
+    FontSize="12"
+    Icon="/Include/Thexder.ico"
+    ExtendsContentIntoTitleBar="True"
+    WindowBackdropType="Mica"
+    WindowCornerPreference="DoNotRound"
+    WindowStartupLocation="Manual">
+    <DockPanel>
+        <ui:TitleBar x:Name="TitleBar" DockPanel.Dock="Top" Height="32" Title="Thexder">
+            <ui:TitleBar.Icon>
+                <ui:ImageIcon Width="16" Height="16" Source="pack://application:,,,/Include/Thexder.ico" />
+            </ui:TitleBar.Icon>
+        </ui:TitleBar>
+
+        <Menu x:Name="MainMenu" DockPanel.Dock="Top" FontSize="12">
+            <MenuItem Header="_File">
+                <MenuItem x:Name="MenuLoad" Header="_Load..." Click="OnLoadLevel" />
+                <MenuItem x:Name="MenuReplay" Header="_Replay" Click="OnReplay" />
+                <MenuItem x:Name="MenuRevert" Header="Re_vert..." Click="OnRevert" />
+                <MenuItem x:Name="MenuNewGame" Header="_New Game" Click="OnNewGame" />
+                <MenuItem x:Name="MenuGameMode" Header="_Game Mode..." Click="OnGameMode" />
+                <Separator />
+                <MenuItem x:Name="MenuConnect" Header="_Connect..." Click="OnConnect" />
+                <MenuItem x:Name="MenuDisconnect" Header="_Disconnect" Click="OnDisconnect" />
+                <Separator />
+                <MenuItem Header="E_xit" Click="OnExit" />
+            </MenuItem>
+            <MenuItem Header="_Window">
+                <MenuItem Header="Standard _Configuration" Click="OnStandardConfiguration" />
+                <MenuItem x:Name="MenuLayout" Header="_Layout" SubmenuOpened="OnLayoutMenuOpened">
+                    <MenuItem Header="_Fit to This Monitor" Click="OnLayoutFit" />
+                    <Separator />
+                    <MenuItem Header="1280 × 720" Tag="1280x720" Click="OnLayoutPreset" />
+                    <MenuItem Header="1366 × 768" Tag="1366x768" Click="OnLayoutPreset" />
+                    <MenuItem Header="1600 × 900" Tag="1600x900" Click="OnLayoutPreset" />
+                    <MenuItem Header="1920 × 1080" Tag="1920x1080" Click="OnLayoutPreset" />
+                    <MenuItem Header="2560 × 1440" Tag="2560x1440" Click="OnLayoutPreset" />
+                    <MenuItem Header="3440 × 1440" Tag="3440x1440" Click="OnLayoutPreset" />
+                    <MenuItem Header="3840 × 2160" Tag="3840x2160" Click="OnLayoutPreset" />
+                </MenuItem>
+                <Separator />
+                <MenuItem x:Name="MenuShowMap" Header="_Map Display" IsCheckable="True" Click="OnPanelsChanged" />
+                <MenuItem x:Name="MenuShowWeapons" Header="_Weapons" IsCheckable="True" Click="OnPanelsChanged" />
+                <MenuItem x:Name="MenuShowEnemy" Header="_Enemy Status" IsCheckable="True" Click="OnPanelsChanged" />
+                <MenuItem x:Name="MenuShowEquipment" Header="E_quipment Display" IsCheckable="True" Click="OnPanelsChanged" />
+                <MenuItem x:Name="MenuNetComm" Header="_Network Communicator" Click="OnNetComm" />
+                <Separator />
+                <MenuItem x:Name="MenuFullscreen" Header="_Full Screen" InputGestureText="F11" IsCheckable="True" Click="OnFullscreen" />
+            </MenuItem>
+            <MenuItem Header="_Options">
+                <MenuItem x:Name="MenuPause" Header="_Pause" InputGestureText="Ctrl+P" Click="OnPause" />
+                <Separator />
+                <MenuItem Header="CLASSIC GAME" IsEnabled="False" FontSize="10.5" FontWeight="SemiBold" />
+                <MenuItem x:Name="MenuSound" Header="_Sound" IsCheckable="True" Click="OnAudioChanged" />
+                <MenuItem x:Name="MenuMusic" Header="_Music" IsCheckable="True" Click="OnAudioChanged" />
+                <MenuItem x:Name="MenuSpeech" Header="Sp_eech" IsCheckable="True" Click="OnAudioChanged" />
+                <MenuItem x:Name="MenuScrolling" Header="Scrolling _Background" IsCheckable="True" Click="OnScrollingBackground" />
+                <MenuItem Header="_Update Speed..." Click="OnUpdateSpeed" />
+                <MenuItem Header="Display _Resolution">
+                    <MenuItem x:Name="MenuResLow" Header="Low (Most Speed - Least Detail)" IsCheckable="True" Tag="0" Click="OnResolution" />
+                    <MenuItem x:Name="MenuResMedium" Header="Medium" IsCheckable="True" Tag="1" Click="OnResolution" />
+                    <MenuItem x:Name="MenuResHigh" Header="High (Most Detail - Least Speed)" IsCheckable="True" Tag="2" Click="OnResolution" />
+                </MenuItem>
+                <MenuItem Header="Playfield _Width">
+                    <MenuItem x:Name="MenuStandard" Header="Standard" IsCheckable="True" Tag="40" Click="OnPlayfieldWidth" />
+                    <MenuItem x:Name="MenuWide" Header="Wide" IsCheckable="True" Tag="60" Click="OnPlayfieldWidth" />
+                </MenuItem>
+                <MenuItem x:Name="MenuRemapKeys" Header="Remap _Keys..." Click="OnRemapKeys" />
+                <MenuItem x:Name="MenuHallOfFame" Header="_Hall of Fame" Click="OnHallOfFame" />
+                <Separator />
+                <MenuItem Header="MODERN FEATURES" IsEnabled="False" FontSize="10.5" FontWeight="SemiBold" />
+                <MenuItem x:Name="MenuSmooth" Header="Smooth _Motion" IsCheckable="True" Click="OnSmoothMotion" />
+                <MenuItem x:Name="MenuSmartAim" Header="Smart Laser _Aim" IsCheckable="True" Click="OnSmartAim" />
+                <MenuItem Header="_Volume">
+                    <MenuItem Header="Sound effects" StaysOpenOnClick="True">
+                        <Slider x:Name="SoundVolume" Width="140" Minimum="0" Maximum="1" ValueChanged="OnVolumeChanged" />
+                    </MenuItem>
+                    <MenuItem Header="Music" StaysOpenOnClick="True">
+                        <Slider x:Name="MusicVolume" Width="140" Minimum="0" Maximum="1" ValueChanged="OnVolumeChanged" />
+                    </MenuItem>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="_Help">
+                <MenuItem Header="_Controls" InputGestureText="F1" Click="OnHelp" />
+                <MenuItem Header="_About..." Click="OnAbout" />
+            </MenuItem>
+        </Menu>
+
+        <Grid>
+        <Border x:Name="StageHost" Background="Black">
+            <Viewbox Stretch="Uniform">
+                <Grid x:Name="Stage" Background="Black" ClipToBounds="True">
+                    <Grid.RowDefinitions>
+                        <RowDefinition x:Name="PlayfieldRow" />
+                        <RowDefinition x:Name="HudRow" />
+                    </Grid.RowDefinitions>
+
+                    <Image x:Name="Playfield" Grid.Row="0" Stretch="Fill" RenderOptions.BitmapScalingMode="NearestNeighbor"
+                           MouseLeftButtonDown="OnPlayfieldClick">
+                        <Image.RenderTransform>
+                            <TranslateTransform x:Name="Shake" />
+                        </Image.RenderTransform>
+                    </Image>
+                    <Image x:Name="Hud" Grid.Row="1" Stretch="Fill" RenderOptions.BitmapScalingMode="NearestNeighbor" />
+
+                    <!-- Score screen buttons -->
+                    <Grid x:Name="ScoreOverlay" Grid.Row="0" Visibility="Collapsed">
+                        <ui:Button Content="Continue" Width="110" Margin="25" HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                                   Appearance="Primary" Click="OnScoreContinue" />
+                        <ui:Button Content="Replay" Width="110" Margin="25" HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                                   Click="OnScoreReplay" />
+                    </Grid>
+
+                    <!-- Movies -->
+                    <Grid x:Name="MovieOverlay" Grid.Row="0" Grid.RowSpan="2" Background="Black" Visibility="Collapsed"
+                          MouseLeftButtonDown="OnMovieClick">
+                        <Image x:Name="MovieImage" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" />
+                    </Grid>
+                </Grid>
+            </Viewbox>
+        </Border>
+
+        <!-- Main menu over the whole stage -->
+        <local:TitleMenu x:Name="TitleMenu" Visibility="Collapsed" />
+        </Grid>
+    </DockPanel>
+</ui:FluentWindow>

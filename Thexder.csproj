@@ -1,0 +1,143 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <!-- Application Settings -->
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <PlatformTarget>x64</PlatformTarget>
+    <RootNamespace>Thexder</RootNamespace>
+    <AssemblyName>Thexder</AssemblyName>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>Include\Thexder.ico</ApplicationIcon>
+
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+
+    <!-- Language Specific -->
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+
+    <!-- Assembly Information -->
+    <Company>BlazeFox</Company>
+    <Authors>BlazeFox</Authors>
+    <AssemblyTitle>Thexder</AssemblyTitle>
+    <AssemblyDescription>Thexder for modern Windows, played with the game files of the 1995 CD.</AssemblyDescription>
+    <Product>Thexder</Product>
+    <Copyright>Copyright © 2026 BlazeFox</Copyright>
+    <InformationalVersion>1.0.0</InformationalVersion>
+    <Version>1.0.0</Version>
+    <AssemblyVersion>1.0.0</AssemblyVersion>
+    <FileVersion>1.0.0</FileVersion>
+  </PropertyGroup>
+
+  <!-- Debug: the app and its libraries side by side, with symbols.
+       Release: one Thexder.exe that runs on the installed .NET 10 Desktop Runtime.
+       Publish: one self-contained Thexder.exe for machines without .NET 10.
+       Release and Publish builds publish to Build\bin\<configuration>; compiled files stay in Build\obj. -->
+  <PropertyGroup>
+    <Configurations>Debug;Release;Publish</Configurations>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' != 'Debug'">
+    <Optimize>true</Optimize>
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <PublishSingleFile>true</PublishSingleFile>
+    <OutputPath>Build\obj\$(Configuration)\bin\</OutputPath>
+    <PublishDir>Build\bin\$(Configuration)\</PublishDir>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <SelfContained>false</SelfContained>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Publish'">
+    <SelfContained>true</SelfContained>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
+  </PropertyGroup>
+
+  <Target Name="PublishExe" AfterTargets="Build" DependsOnTargets="Publish" Condition="'$(Configuration)' != 'Debug' And '$(DesignTimeBuild)' != 'true'" />
+
+  <!-- WPF projects leave System.IO out of the implicit usings (Path clashes with System.Windows.Shapes.Path). -->
+  <ItemGroup>
+    <Using Include="System.IO" />
+  </ItemGroup>
+
+  <!-- Folders that are not part of the app -->
+  <PropertyGroup>
+    <DefaultItemExcludes>$(DefaultItemExcludes);BaseGame\**;assets\**;iso\**;data\**</DefaultItemExcludes>
+  </PropertyGroup>
+
+  <!-- UI -->
+  <ItemGroup>
+    <PackageReference Include="WPF-UI" Version="4.3.0" />
+  </ItemGroup>
+
+  <!-- Audio output (WASAPI mixing) and MIDI -->
+  <ItemGroup>
+    <PackageReference Include="NAudio" Version="2.2.1" />
+  </ItemGroup>
+
+  <!-- Logging -->
+  <ItemGroup>
+    <PackageReference Include="Serilog" Version="4.4.0" />
+    <PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />
+  </ItemGroup>
+
+  <!-- The icon also appears in the title bar -->
+  <ItemGroup>
+    <Resource Include="Include\Thexder.ico" />
+  </ItemGroup>
+
+  <!-- Embedded data: the game files checked at startup (size and SHA-256), the enemy types, the Indeo 3 codebooks,
+       the credits shown in Help > About -->
+  <ItemGroup>
+    <EmbeddedResource Include="Include\assets.txt" LogicalName="Thexder.assets.txt" />
+    <EmbeddedResource Include="Include\enemy-types.json" LogicalName="Thexder.enemy-types.json" />
+    <EmbeddedResource Include="Include\indeo3-codebooks.json" LogicalName="Thexder.indeo3-codebooks.json" />
+    <EmbeddedResource Include="Include\credits.txt" LogicalName="Thexder.credits.txt" />
+  </ItemGroup>
+
+  <!-- When this build was made and where its author is: shown in Help > About. -->
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute">
+      <_Parameter1>BuildTime</_Parameter1>
+      <_Parameter2>$([System.DateTimeOffset]::Now.ToString("yyyy-MM-ddTHH:mm:sszzz"))</_Parameter2>
+    </AssemblyAttribute>
+    <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute">
+      <_Parameter1>Website</_Parameter1>
+      <_Parameter2>https://github.com/iFocsy</_Parameter2>
+    </AssemblyAttribute>
+  </ItemGroup>
+
+  <!-- The build's revision, "Version 0.1.0 r1a2b3c4d" in Help > About: a short hash of the app's sources, so the same
+       sources always give the same revision, with or without git. -->
+  <Target Name="SourceRevision" BeforeTargets="GetAssemblyAttributes">
+    <ItemGroup>
+      <_RevisionSource Include="**\*.cs;**\*.xaml;Include\**;$(MSBuildProjectFile);Directory.Build.props;app.manifest" Exclude="Build\**;BaseGame\**;assets\**;iso\**;data\**" />
+    </ItemGroup>
+    <GetFileHash Files="@(_RevisionSource)" Algorithm="SHA256">
+      <Output TaskParameter="Items" ItemName="_RevisionHash" />
+    </GetFileHash>
+    <WriteLinesToFile File="$(IntermediateOutputPath)revision.txt" Lines="@(_RevisionHash->'%(Identity)=%(FileHash)')" Overwrite="true" WriteOnlyWhenDifferent="true" />
+    <GetFileHash Files="$(IntermediateOutputPath)revision.txt" Algorithm="SHA256">
+      <Output TaskParameter="Hash" PropertyName="_Revision" />
+    </GetFileHash>
+    <PropertyGroup>
+      <InformationalVersion>$(Version)+$(_Revision.Substring(0, 8).ToLowerInvariant())</InformationalVersion>
+    </PropertyGroup>
+  </Target>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Thexder.Tests" />
+    <InternalsVisibleTo Include="Thexder.DevTools" />
+  </ItemGroup>
+
+</Project>

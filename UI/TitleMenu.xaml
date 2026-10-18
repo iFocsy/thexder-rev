@@ -1,0 +1,134 @@
+<UserControl
+    x:Class="Thexder.UI.TitleMenu"
+    x:ClassModifier="internal"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    xmlns:local="clr-namespace:Thexder.UI">
+    <!-- The main menu: Thexder running through space, the profiles to choose from and the way into the game. -->
+    <UserControl.Resources>
+        <!-- Profile rows: a red bar and glow on the selected one, a faint light under the mouse -->
+        <Style x:Key="ProfileItem" TargetType="ListBoxItem">
+            <Setter Property="Margin" Value="0,2,0,2" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <Border x:Name="Row" Padding="{TemplateBinding Padding}" Background="Transparent" BorderBrush="Transparent" BorderThickness="3,0,0,0" CornerRadius="6">
+                            <ContentPresenter />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Row" Property="Background" Value="#14FFFFFF" />
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="Row" Property="Background" Value="#33E8463A" />
+                                <Setter TargetName="Row" Property="BorderBrush" Value="#E8463A" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <local:CosmosScene x:Name="Scene" />
+
+        <!-- Shade on the left so the menu reads over the stars -->
+        <Rectangle IsHitTestVisible="False">
+            <Rectangle.Fill>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                    <GradientStop Offset="0" Color="#B0040712" />
+                    <GradientStop Offset="0.38" Color="#60040712" />
+                    <GradientStop Offset="0.6" Color="#00040712" />
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+
+        <!-- Pauses or plays the animation behind the menu -->
+        <ui:Button x:Name="AnimationButton" Margin="0,12,14,0" Padding="7" HorizontalAlignment="Right" VerticalAlignment="Top" MinHeight="0"
+                   Appearance="Transparent" Background="#40000000" BorderBrush="#30FFFFFF" Opacity="0.8" ToolTip="Pause the animation" Click="OnToggleAnimation">
+            <ui:SymbolIcon x:Name="AnimationIcon" FontSize="16" Foreground="#EEF1F8" Symbol="Pause24" />
+        </ui:Button>
+
+        <!-- Shrinks to fit a small window, never grows -->
+        <Viewbox Margin="48,24,0,24" HorizontalAlignment="Left" VerticalAlignment="Center" Stretch="Uniform" StretchDirection="DownOnly">
+        <StackPanel x:Name="Menu" Width="390">
+            <!-- A quiet wordmark: light letters, wide apart, a soft glow (cached: it never changes) -->
+            <StackPanel CacheMode="BitmapCache">
+                <TextBlock FontFamily="Bahnschrift Light, Bahnschrift, Segoe UI Light" FontSize="54" FontWeight="Light"
+                           Text="T&#x2009;H&#x2009;E&#x2009;X&#x2009;D&#x2009;E&#x2009;R">
+                    <TextBlock.Foreground>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                            <GradientStop Offset="0" Color="#FFFFFF" />
+                            <GradientStop Offset="1" Color="#AEB9D3" />
+                        </LinearGradientBrush>
+                    </TextBlock.Foreground>
+                    <TextBlock.Effect>
+                        <DropShadowEffect BlurRadius="22" Opacity="0.35" ShadowDepth="0" Color="#9FB6FF" />
+                    </TextBlock.Effect>
+                </TextBlock>
+                <Rectangle Width="330" Height="1" Margin="3,6,0,0" HorizontalAlignment="Left">
+                    <Rectangle.Fill>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                            <GradientStop Offset="0" Color="#90FFFFFF" />
+                            <GradientStop Offset="1" Color="#00FFFFFF" />
+                        </LinearGradientBrush>
+                    </Rectangle.Fill>
+                </Rectangle>
+            </StackPanel>
+
+            <Border Margin="0,28,0,0" Padding="18,14,18,16" Background="#D80A0F22" BorderBrush="#2A3560" BorderThickness="1" CornerRadius="12">
+                <StackPanel>
+                    <TextBlock FontSize="11" FontWeight="Bold" Foreground="#4FD8FF" Text="S E L E C T   P R O F I L E" />
+                    <ListBox x:Name="Profiles" MaxHeight="232" Margin="-4,10,-4,0" Background="Transparent" BorderThickness="0"
+                             ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionChanged="OnProfileSelected" MouseDoubleClick="OnProfileDoubleClick" />
+                    <TextBlock x:Name="NoProfiles" Margin="2,10,0,0" FontSize="12" Foreground="#8F98AE" TextWrapping="Wrap" Visibility="Collapsed"
+                               Text="No profiles yet. Enter a name to create one." />
+                    <ui:TextBox x:Name="NewProfile" Margin="0,12,0,0" MaxLength="51" PlaceholderText="New profile name" TextChanged="OnNewProfileChanged">
+                        <ui:TextBox.Icon>
+                            <ui:SymbolIcon Symbol="PersonAdd24" />
+                        </ui:TextBox.Icon>
+                    </ui:TextBox>
+                    <ui:Button x:Name="PlayButton" Height="46" Margin="0,14,0,0" HorizontalAlignment="Stretch" Appearance="Primary" Click="OnPlay"
+                               Background="#E8463A" MouseOverBackground="#F25D4F" PressedBackground="#C23A30" Foreground="White" BorderBrush="Transparent">
+                        <StackPanel Orientation="Horizontal">
+                            <ui:SymbolIcon Margin="0,0,10,0" FontSize="20" Symbol="Play24" Filled="True" />
+                            <TextBlock x:Name="PlayText" VerticalAlignment="Center" FontSize="16" FontWeight="SemiBold" Text="Play" />
+                        </StackPanel>
+                    </ui:Button>
+                </StackPanel>
+            </Border>
+
+            <WrapPanel Margin="0,14,0,0">
+                <ui:Button Margin="0,0,8,8" Click="OnControls" ToolTip="F1">
+                    <StackPanel Orientation="Horizontal">
+                        <ui:SymbolIcon Margin="0,0,6,0" Symbol="Keyboard24" />
+                        <TextBlock Text="Controls" />
+                    </StackPanel>
+                </ui:Button>
+                <ui:Button Margin="0,0,8,8" Click="OnRemapKeys">
+                    <StackPanel Orientation="Horizontal">
+                        <ui:SymbolIcon Margin="0,0,6,0" Symbol="Settings24" />
+                        <TextBlock Text="Remap Keys" />
+                    </StackPanel>
+                </ui:Button>
+                <ui:Button Margin="0,0,8,8" Click="OnAbout">
+                    <StackPanel Orientation="Horizontal">
+                        <ui:SymbolIcon Margin="0,0,6,0" Symbol="Info24" />
+                        <TextBlock Text="About" />
+                    </StackPanel>
+                </ui:Button>
+                <ui:Button Margin="0,0,8,8" Click="OnExit">
+                    <StackPanel Orientation="Horizontal">
+                        <ui:SymbolIcon Margin="0,0,6,0" Symbol="Power24" />
+                        <TextBlock Text="Exit" />
+                    </StackPanel>
+                </ui:Button>
+            </WrapPanel>
+        </StackPanel>
+        </Viewbox>
+
+    </Grid>
+</UserControl>

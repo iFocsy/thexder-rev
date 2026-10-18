@@ -1,0 +1,27 @@
+# Build output (Directory.Build.props sends bin/obj here)
+/Build/
+[Bb]in/
+[Oo]bj/
+
+# IDE
+.vs/
+.vscode/
+*.user
+*.suo
+*.rsuser
+*.userprefs
+
+# Local only: original game material, notes, tests and tools
+/BaseGame/
+
+# Game files, CD image and player data, when they sit at the root. Anchored with "/": Windows matches without case,
+# so a bare "assets/" would also hide the Core/Assets source folder.
+/assets/
+/iso/
+/data/
+*.iso
+
+# Logs and test results
+[Ll]ogs/
+*.log
+[Tt]est[Rr]esult*/
